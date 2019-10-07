@@ -2,21 +2,21 @@
 module.exports = function main(inputs) {
     console.log("Debug Info");
     const header = "***<store earning no money>Receipt ***\n";
-    let product = [];
+    let productList = [];
     let receipt = "";
     
    
     inputs.forEach(productItem => {
-            let elementExists = product.find(prod => prod.Name == productItem.Name);
+            let elementExists = productList.find(prod => prod.Name == productItem.Name);
             if(elementExists){
                 elementExists.Quantity++;
             } else {
-                product.push({Name :productItem.Name, Quantity: 1, 
+                productList.push({Name :productItem.Name, Quantity: 1, 
                     Price: productItem.Price, Unit: productItem.Unit});
             }
         });
     let total = 0;
-    product.forEach(productItem => {
+    productList.forEach(productItem => {
             let subtotal = productItem.Quantity * productItem.Price; 
             total+= subtotal;
             receipt += "Name: "+ String(productItem.Name) 
