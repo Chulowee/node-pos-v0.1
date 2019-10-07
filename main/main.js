@@ -1,21 +1,33 @@
+'use strict';
 module.exports = function main(inputs) {
     console.log("Debug Info");
-    let header = "***<store earning no money>Receipt ***\n";
-    let item = [];
-    let result = "";
+    const header = "***<store earning no money>Receipt ***\n";
+    let product = [];
+    let subtotal = 0;
+    let receipt = "";
+    
    
-        inputs.forEach(element => {
-            let elementExists = item.find(coll => element.Barcode == coll.Barcode);
+    inputs.forEach(element => {
+            let elementExists = product.find(prod => prod.Name == element.Name);
             if(elementExists){
                 elementExists.Quantity++;
+                subtotal += element.Price.toFixed(2);
             } else {
-                item.push({ Name: element, Quantity: 1, price: element.price})
+                product.push({Name :element.Name, Quantity: 1, Price: element.Price});
+                subtotal = element.Price;
             }
         });
 
 
-        item.forEach(element => {
-            result += "Name: "+ String(element.Name) +", Quantity:" ;
+        product.forEach(element => {
+            receipt += "Name: "+ String(element.Name) 
+            +", Quantity: "+ String(element.Quantity)
+            +", Unit price: "+ element.Price.toFixed(2) + " (yuan)"
+            +", Subtotal:" + subtotal.toFixed(2) + " (yuan)" + "\n" ;
         });
-    return header + result;
+
+    const footer = '----------------------\n' +
+    'Total: '+subtotal+' (yuan)\n' +
+    '**********************\n';
+    return header + receipt +footer;
 };
